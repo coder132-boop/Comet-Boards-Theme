@@ -161,6 +161,58 @@
     color: {{ block.settings.error_text }};
   }
 
+  /* Trust signals */
+  .ai-contact-trust-{{ ai_gen_id }} {
+    margin-bottom: 36px;
+  }
+
+  .ai-contact-trust-callout-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.heading_color }};
+    font-weight: 600;
+    background: #f5f5f5;
+    border-left: 3px solid {{ block.settings.input_focus_border }};
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .ai-contact-testimonials-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .ai-contact-testimonial-{{ ai_gen_id }} {
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .ai-contact-testimonial-quote-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.55;
+    margin: 0 0 10px;
+    font-style: italic;
+  }
+
+  .ai-contact-testimonial-name-{{ ai_gen_id }} {
+    font-size: 13px;
+    color: {{ block.settings.heading_color }};
+    font-weight: 600;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-testimonials-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media screen and (max-width: 749px) {
     .ai-contact-form-{{ ai_gen_id }} {
       width: 100%;
@@ -190,6 +242,48 @@
       <div class="ai-contact-form__description-{{ ai_gen_id }}">{{ block.settings.description }}</div>
     {% endif %}
   </div>
+
+  {% if block.settings.show_trust_signals %}
+    <div class="ai-contact-trust-{{ ai_gen_id }}">
+      {% if block.settings.trust_callout != blank %}
+        <p class="ai-contact-trust-callout-{{ ai_gen_id }}">{{ block.settings.trust_callout }}</p>
+      {% endif %}
+      {% assign has_t1 = false %}
+      {% assign has_t2 = false %}
+      {% assign has_t3 = false %}
+      {% if block.settings.testimonial_1_quote != blank %}{% assign has_t1 = true %}{% endif %}
+      {% if block.settings.testimonial_2_quote != blank %}{% assign has_t2 = true %}{% endif %}
+      {% if block.settings.testimonial_3_quote != blank %}{% assign has_t3 = true %}{% endif %}
+      {% if has_t1 or has_t2 or has_t3 %}
+        <div class="ai-contact-testimonials-{{ ai_gen_id }}">
+          {% if has_t1 %}
+            <div class="ai-contact-testimonial-{{ ai_gen_id }}">
+              <p class="ai-contact-testimonial-quote-{{ ai_gen_id }}">"{{ block.settings.testimonial_1_quote }}"</p>
+              {% if block.settings.testimonial_1_name != blank %}
+                <p class="ai-contact-testimonial-name-{{ ai_gen_id }}">{{ block.settings.testimonial_1_name }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if has_t2 %}
+            <div class="ai-contact-testimonial-{{ ai_gen_id }}">
+              <p class="ai-contact-testimonial-quote-{{ ai_gen_id }}">"{{ block.settings.testimonial_2_quote }}"</p>
+              {% if block.settings.testimonial_2_name != blank %}
+                <p class="ai-contact-testimonial-name-{{ ai_gen_id }}">{{ block.settings.testimonial_2_name }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if has_t3 %}
+            <div class="ai-contact-testimonial-{{ ai_gen_id }}">
+              <p class="ai-contact-testimonial-quote-{{ ai_gen_id }}">"{{ block.settings.testimonial_3_quote }}"</p>
+              {% if block.settings.testimonial_3_name != blank %}
+                <p class="ai-contact-testimonial-name-{{ ai_gen_id }}">{{ block.settings.testimonial_3_name }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
 
   {%- form 'contact' -%}
     {% if form.posted_successfully? %}
@@ -382,6 +476,58 @@
   "settings": [
     {
       "type": "header",
+      "content": "Trust signals"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_signals",
+      "label": "Show testimonials and callout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_callout",
+      "label": "Trust callout",
+      "default": "Every board is handcrafted to order — starting at $349. Boards ship in 4–6 weeks, and we reply within 24 hours."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_quote",
+      "label": "Testimonial 1 — quote",
+      "default": "The board feels like it was made for me — because it was. Perfect flex, perfect shape."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_name",
+      "label": "Testimonial 1 — name",
+      "default": "— Lars M., Zurich"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_quote",
+      "label": "Testimonial 2 — quote",
+      "default": "I've ridden plenty of production boards — nothing compares to something built exactly to your spec."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_name",
+      "label": "Testimonial 2 — name",
+      "default": "— Mia T., Innsbruck"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_quote",
+      "label": "Testimonial 3 — quote",
+      "default": "Fast turnaround, great communication, and a board that actually fits how I ride."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_name",
+      "label": "Testimonial 3 — name",
+      "default": "— Jonas K., Salzburg"
+    },
+    {
+      "type": "header",
       "content": "Content"
     },
     {
@@ -394,7 +540,7 @@
       "type": "inline_richtext",
       "id": "description",
       "label": "Description",
-      "default": "We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible."
+      "default": "Ready to build? Pick your shape above, then fill this in. Every Comet board is made to order — boards ship in 4–6 weeks, and we reply within 24 hours."
     },
     {
       "type": "text",
@@ -458,13 +604,13 @@
       "type": "text",
       "id": "subject_label",
       "label": "Subject label",
-      "default": "Subject"
+      "default": "Board Shape"
     },
     {
       "type": "text",
       "id": "subject_placeholder",
       "label": "Subject placeholder",
-      "default": "How can we help?"
+      "default": "Select your shape above or tell us your vision"
     },
     {
       "type": "checkbox",

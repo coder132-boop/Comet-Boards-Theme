@@ -3666,3 +3666,10 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* Hide Shopify follow/shop button (off-brand purple pill) */
+.shopify-follow-button,
+shopify-follow-button,
+.shopify-section--follow-on-shop {
+  display: none !important;
+}

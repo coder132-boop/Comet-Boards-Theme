@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:themes.shopify.com)",
+      "Bash(grep -n \"scale\\(1.05\\)\\\\|translateY\\(0.6\\\\|quick-add {$\\\\|quick-add-modal\\\\|1.4rem 1.2rem\\\\|1.8rem\\\\|margin-top: 0.6rem\\\\|opacity: 0.5\" \"c:/Users/matth/OneDrive/Desktop/Comet/assets/component-card.css\")"
+    ]
+  }
+}
