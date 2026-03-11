@@ -3679,3 +3679,10 @@ shopify-follow-button,
 .shopify-section--follow-on-shop {
   display: none !important;
 }
+
+.header__icon--search,
+.header__search,
+.header__icon--account,
+.header__icon--cart {
+  display: none !important;
+}
