@@ -393,7 +393,7 @@
         }
 
         // Step 2: pre-fill form fields (best-effort)
-        var card = link.closest('[class*="ai-multicolumn-card-"]');
+        var card = link.closest('[class*="ai-multicolumn-card-"]:not(a)');
         var titleEl = card ? card.querySelector('[class*="ai-multicolumn-card-title-"]') : null;
         var title = titleEl ? titleEl.textContent.trim() : '';
 
