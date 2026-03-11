@@ -3667,6 +3667,12 @@ details-disclosure > details {
   }
 }
 
+/* Banner text-shadow for readability on any image background */
+.banner__heading,
+.banner__text {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
 /* Hide Shopify follow/shop button (off-brand purple pill) */
 .shopify-follow-button,
 shopify-follow-button,
