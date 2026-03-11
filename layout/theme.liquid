@@ -380,10 +380,14 @@
       link.addEventListener('click', function(e) {
         e.preventDefault();
 
-        // Step 1: scroll to wherever the link points
+        // Step 1: scroll to contact form — try href target first, then find by class
         var href = link.getAttribute('href') || '';
         var targetId = href.startsWith('#') ? href.slice(1) : '';
         var scrollTarget = targetId ? document.getElementById(targetId) : null;
+        if (!scrollTarget) {
+          var formEl = document.querySelector('[class*="ai-contact-form-"]');
+          scrollTarget = formEl ? (formEl.closest('.shopify-section') || formEl) : null;
+        }
         if (scrollTarget) {
           scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
