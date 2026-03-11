@@ -1,0 +1,594 @@
+{% doc %}
+  @prompt
+    Create a custom multicolumn section with yellow card backgrounds that has separate, independent color controls for:
+    1. The main heading text (should be yellow)
+    2. The text inside each card/column (should be black)
+    
+    The section should display multiple columns with cards, similar to a standard multicolumn section, but with individual color settings for heading text and card text that can be configured separately without using color schemes.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-multicolumn-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-multicolumn-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-multicolumn-heading-{{ ai_gen_id }} {
+    text-align: {{ block.settings.heading_alignment }};
+    margin-bottom: {{ block.settings.heading_spacing }}px;
+    color: {{ block.settings.heading_text_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 700;
+  }
+
+  .ai-multicolumn-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+  }
+
+  .ai-multicolumn-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background_color }};
+    padding: {{ block.settings.card_padding }}px;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    text-align: {{ block.settings.card_text_alignment }};
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-multicolumn-card-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-multicolumn-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-multicolumn-card-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-multicolumn-card-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-multicolumn-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    font-weight: 600;
+    margin: 0;
+    color: {{ block.settings.card_text_color }};
+  }
+
+  .ai-multicolumn-card-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_text_size }}px;
+    line-height: 1.6;
+    margin: 0;
+    color: {{ block.settings.card_text_color }};
+  }
+
+  .ai-multicolumn-card-link-{{ ai_gen_id }} {
+    display: inline-block;
+    margin-top: 8px;
+    color: {{ block.settings.card_text_color }};
+    text-decoration: underline;
+    font-size: {{ block.settings.card_text_size }}px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-multicolumn-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_tablet }}, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-multicolumn-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+
+    .ai-multicolumn-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-multicolumn-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-multicolumn-container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-multicolumn-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="ai-multicolumn-grid-{{ ai_gen_id }}">
+      {% for i in (1..6) %}
+        {% liquid
+          assign image_key = 'column_' | append: i | append: '_image'
+          assign title_key = 'column_' | append: i | append: '_title'
+          assign text_key = 'column_' | append: i | append: '_text'
+          assign link_key = 'column_' | append: i | append: '_link'
+          assign link_text_key = 'column_' | append: i | append: '_link_text'
+
+          assign column_image = block.settings[image_key]
+          assign column_title = block.settings[title_key]
+          assign column_text = block.settings[text_key]
+          assign column_link = block.settings[link_key]
+          assign column_link_text = block.settings[link_text_key]
+        %}
+
+        {% if column_title != blank or column_text != blank or column_image != blank %}
+          <div class="ai-multicolumn-card-{{ ai_gen_id }}">
+            {% if column_image != blank %}
+              <div class="ai-multicolumn-card-image-wrapper-{{ ai_gen_id }}">
+                <img
+                  src="{{ column_image | image_url: width: 600 }}"
+                  alt="{{ column_image.alt | escape }}"
+                  class="ai-multicolumn-card-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="{{ column_image.width }}"
+                  height="{{ column_image.height }}"
+                >
+              </div>
+            {% else %}
+              <div class="ai-multicolumn-card-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+
+            {% if column_title != blank %}
+              <h3 class="ai-multicolumn-card-title-{{ ai_gen_id }}">{{ column_title }}</h3>
+            {% endif %}
+
+            {% if column_text != blank %}
+              <div class="ai-multicolumn-card-text-{{ ai_gen_id }}">{{ column_text }}</div>
+            {% endif %}
+
+            {% if column_link != blank and column_link_text != blank %}
+              <a href="{{ column_link }}" class="ai-multicolumn-card-link-{{ ai_gen_id }}">
+                {{ column_link_text }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Multicolumn",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Multicolumn"
+    },
+    {
+      "type": "color",
+      "id": "heading_text_color",
+      "label": "Heading text color",
+      "default": "#e3fc02"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading spacing",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#e3fc02"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "card_text_alignment",
+      "label": "Card text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Card text size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on tablet",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Column gap",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_1_title",
+      "label": "Title",
+      "default": "Column 1"
+    },
+    {
+      "type": "richtext",
+      "id": "column_1_text",
+      "label": "Text",
+      "default": "<p>Add details about your product here.</p>"
+    },
+    {
+      "type": "url",
+      "id": "column_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "column_1_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_2_title",
+      "label": "Title",
+      "default": "Column 2"
+    },
+    {
+      "type": "richtext",
+      "id": "column_2_text",
+      "label": "Text",
+      "default": "<p>Add details about your product here.</p>"
+    },
+    {
+      "type": "url",
+      "id": "column_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "column_2_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_3_title",
+      "label": "Title",
+      "default": "Column 3"
+    },
+    {
+      "type": "richtext",
+      "id": "column_3_text",
+      "label": "Text",
+      "default": "<p>Add details about your product here.</p>"
+    },
+    {
+      "type": "url",
+      "id": "column_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "column_3_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Column 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_4_title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "column_4_text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "column_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "column_4_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Column 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_5_title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "column_5_text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "column_5_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "column_5_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Column 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "column_6_title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "column_6_text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "column_6_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "column_6_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

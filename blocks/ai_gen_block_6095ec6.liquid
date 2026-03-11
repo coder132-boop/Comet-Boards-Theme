@@ -1,0 +1,124 @@
+{% doc %}
+  @prompt
+    Create a custom liquid block that adds smooth scrolling behavior to anchor links on the page. When a user clicks a link that points to a section ID (like #shopify-section-...), the page should smoothly scroll to that section instead of jumping instantly. The block should include CSS for scroll-behavior: smooth and/or JavaScript to handle smooth scrolling for anchor links.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-smooth-scroll-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  html.ai-smooth-scroll-enabled-{{ ai_gen_id }} {
+    scroll-behavior: smooth;
+  }
+{% endstyle %}
+
+<smooth-scroll-{{ ai_gen_id }}
+  class="ai-smooth-scroll-{{ ai_gen_id }}"
+  data-scroll-duration="{{ block.settings.scroll_duration }}"
+  data-scroll-offset="{{ block.settings.scroll_offset }}"
+  {{ block.shopify_attributes }}
+>
+</smooth-scroll-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SmoothScroll{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.scrollDuration = parseInt(this.dataset.scrollDuration) || 800;
+        this.scrollOffset = parseInt(this.dataset.scrollOffset) || 0;
+      }
+
+      connectedCallback() {
+        this.enableCSSScrollBehavior();
+        this.setupAnchorLinks();
+      }
+
+      enableCSSScrollBehavior() {
+        document.documentElement.classList.add('ai-smooth-scroll-enabled-{{ ai_gen_id }}');
+      }
+
+      setupAnchorLinks() {
+        document.addEventListener('click', (event) => {
+          const anchor = event.target.closest('a[href^="#"]');
+          
+          if (!anchor) return;
+          
+          const href = anchor.getAttribute('href');
+          
+          if (!href || href === '#') return;
+          
+          const targetId = href.substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (!targetElement) return;
+          
+          event.preventDefault();
+          
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = targetPosition - this.scrollOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          
+          if (anchor.getAttribute('href').startsWith('#')) {
+            history.pushState(null, null, href);
+          }
+        });
+      }
+
+      disconnectedCallback() {
+        document.documentElement.classList.remove('ai-smooth-scroll-enabled-{{ ai_gen_id }}');
+      }
+    }
+
+    customElements.define('smooth-scroll-{{ ai_gen_id }}', SmoothScroll{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Smooth scroll",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Scroll behavior"
+    },
+    {
+      "type": "paragraph",
+      "content": "This block enables smooth scrolling for all anchor links on the page. When users click links that point to section IDs, the page will smoothly scroll instead of jumping instantly."
+    },
+    {
+      "type": "range",
+      "id": "scroll_duration",
+      "min": 200,
+      "max": 2000,
+      "step": 100,
+      "unit": "ms",
+      "label": "Scroll duration",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "scroll_offset",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Scroll offset",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooth scroll"
+    }
+  ]
+}
+{% endschema %}
