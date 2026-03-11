@@ -384,6 +384,16 @@
     cardLinks.forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
+
+        // Step 1: always scroll to wherever the link points
+        var href = link.getAttribute('href') || '';
+        var targetId = href.startsWith('#') ? href.slice(1) : '';
+        var scrollTarget = targetId ? document.getElementById(targetId) : null;
+        if (scrollTarget) {
+          scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Step 2: pre-fill form fields (best-effort, doesn't affect scrolling)
         var card = link.closest(CARD_CLASS);
         var titleEl = card ? card.querySelector(CARD_TITLE_CLASS) : null;
         var title = titleEl ? titleEl.textContent.trim() : '';
@@ -392,11 +402,7 @@
           var subjectField = document.getElementById(SUBJECT_ID);
           if (subjectField) {
             subjectField.value = 'Board Shape: ' + title;
-            var formSection = subjectField.closest('.shopify-section') || subjectField.closest('section') || subjectField.parentElement;
-            if (formSection) {
-              formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-            setTimeout(function() { subjectField.focus(); }, 600);
+            setTimeout(function() { subjectField.focus(); }, 700);
           }
 
           var messageField = document.getElementById(MESSAGE_ID);
