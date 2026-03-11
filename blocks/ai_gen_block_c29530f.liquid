@@ -170,8 +170,8 @@
     font-size: {{ block.settings.description_size }}px;
     color: {{ block.settings.heading_color }};
     font-weight: 600;
-    background: #f5f5f5;
-    border-left: 3px solid {{ block.settings.input_focus_border }};
+    background: {{ block.settings.trust_callout_bg }};
+    border-left: 3px solid {{ block.settings.trust_accent_color }};
     padding: 12px 16px;
     border-radius: 0 4px 4px 0;
     margin-bottom: 28px;
@@ -186,8 +186,8 @@
   }
 
   .ai-contact-testimonial-{{ ai_gen_id }} {
-    background: #f9f9f9;
-    border: 1px solid #e8e8e8;
+    background: {{ block.settings.testimonial_bg }};
+    border: 1px solid {{ block.settings.testimonial_border }};
     border-radius: 8px;
     padding: 16px;
   }
@@ -738,73 +738,97 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#ffffff"
+      "default": "#f5f3f0"
     },
     {
       "type": "color",
       "id": "heading_color",
       "label": "Heading",
-      "default": "#1f1f21"
+      "default": "#111114"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text",
-      "default": "#666666"
+      "default": "#4a4a4a"
     },
     {
       "type": "color",
       "id": "label_color",
       "label": "Label",
-      "default": "#1f1f21"
+      "default": "#111114"
     },
     {
       "type": "color",
       "id": "input_background",
       "label": "Input background",
-      "default": "#f9f9f9"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "input_text_color",
       "label": "Input text",
-      "default": "#1f1f21"
+      "default": "#111114"
     },
     {
       "type": "color",
       "id": "input_border_color",
       "label": "Input border",
-      "default": "#e0e0e0"
+      "default": "#d0cdc8"
     },
     {
       "type": "color",
       "id": "input_focus_border",
       "label": "Input focus border",
-      "default": "#e3fc02"
+      "default": "#c8b896"
     },
     {
       "type": "color",
       "id": "placeholder_color",
       "label": "Placeholder",
-      "default": "#999999"
+      "default": "#9a9490"
     },
     {
       "type": "color",
       "id": "button_color",
       "label": "Button background",
-      "default": "#e3fc02"
+      "default": "#111114"
     },
     {
       "type": "color",
       "id": "button_hover_color",
       "label": "Button hover background",
-      "default": "#ccdd00"
+      "default": "#2a2a2e"
     },
     {
       "type": "color",
       "id": "button_text_color",
       "label": "Button text",
-      "default": "#1f1f21"
+      "default": "#f0ece4"
+    },
+    {
+      "type": "color",
+      "id": "trust_callout_bg",
+      "label": "Trust callout background",
+      "default": "#eceae6"
+    },
+    {
+      "type": "color",
+      "id": "trust_accent_color",
+      "label": "Trust callout accent border",
+      "default": "#c8b896"
+    },
+    {
+      "type": "color",
+      "id": "testimonial_bg",
+      "label": "Testimonial background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "testimonial_border",
+      "label": "Testimonial border",
+      "default": "#d8d5d0"
     },
     {
       "type": "color",
