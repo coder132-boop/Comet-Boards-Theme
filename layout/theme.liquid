@@ -374,18 +374,13 @@
     {%- endif -%}
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var CARD_LINK_CLASS = '.ai-multicolumn-card-link-aigenblockae37131jftyaj';
-    var CARD_CLASS = '.ai-multicolumn-card-aigenblockae37131jftyaj';
-    var CARD_TITLE_CLASS = '.ai-multicolumn-card-title-aigenblockae37131jftyaj';
-    var SUBJECT_ID = 'ai-contact-subject-aigenblockc29530fld8kmp';
-    var MESSAGE_ID = 'ai-contact-message-aigenblockc29530fld8kmp';
+    var cardLinks = document.querySelectorAll('[class*="ai-multicolumn-card-link-"]');
 
-    var cardLinks = document.querySelectorAll(CARD_LINK_CLASS);
     cardLinks.forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
 
-        // Step 1: always scroll to wherever the link points
+        // Step 1: scroll to wherever the link points
         var href = link.getAttribute('href') || '';
         var targetId = href.startsWith('#') ? href.slice(1) : '';
         var scrollTarget = targetId ? document.getElementById(targetId) : null;
@@ -393,19 +388,19 @@
           scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Step 2: pre-fill form fields (best-effort, doesn't affect scrolling)
-        var card = link.closest(CARD_CLASS);
-        var titleEl = card ? card.querySelector(CARD_TITLE_CLASS) : null;
+        // Step 2: pre-fill form fields (best-effort)
+        var card = link.closest('[class*="ai-multicolumn-card-"]');
+        var titleEl = card ? card.querySelector('[class*="ai-multicolumn-card-title-"]') : null;
         var title = titleEl ? titleEl.textContent.trim() : '';
 
         if (title) {
-          var subjectField = document.getElementById(SUBJECT_ID);
+          var subjectField = document.querySelector('[id*="ai-contact-subject-"]');
           if (subjectField) {
             subjectField.value = 'Board Shape: ' + title;
             setTimeout(function() { subjectField.focus(); }, 700);
           }
 
-          var messageField = document.getElementById(MESSAGE_ID);
+          var messageField = document.querySelector('[id*="ai-contact-message-"]');
           if (messageField && !messageField.value) {
             messageField.value = "Hi, I'd like to design a " + title + " shape board.\n\nShape: " + title + "\nCustom design notes: ";
           }
