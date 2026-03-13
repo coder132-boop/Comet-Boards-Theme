@@ -742,7 +742,7 @@ class SliderComponent extends HTMLElement {
     const resizeObserver = new ResizeObserver((entries) => this.initPages());
     resizeObserver.observe(this.slider);
 
-    this.slider.addEventListener('scroll', this.update.bind(this));
+    this.slider.addEventListener('scroll', this.update.bind(this), { passive: true });
     this.prevButton.addEventListener('click', this.onButtonClick.bind(this));
     this.nextButton.addEventListener('click', this.onButtonClick.bind(this));
   }
@@ -766,6 +766,18 @@ class SliderComponent extends HTMLElement {
   update() {
     // Temporarily prevents unneeded updates resulting from variant changes
     // This should be refactored as part of https://github.com/Shopify/dawn/issues/2057
+    if (!this.slider || !this.nextButton) return;
+
+    // Batch layout reads in rAF to avoid layout thrashing during scroll
+    if (this._updatePending) return;
+    this._updatePending = true;
+    requestAnimationFrame(() => {
+      this._updatePending = false;
+      this._doUpdate();
+    });
+  }
+
+  _doUpdate() {
     if (!this.slider || !this.nextButton) return;
 
     const previousPage = this.currentPage;
@@ -843,7 +855,7 @@ class SlideshowComponent extends SliderComponent {
 
     this.sliderControlLinksArray = Array.from(this.sliderControlWrapper.querySelectorAll('.slider-counter__link'));
     this.sliderControlLinksArray.forEach((link) => link.addEventListener('click', this.linkToSlide.bind(this)));
-    this.slider.addEventListener('scroll', this.setSlideVisibility.bind(this));
+    this.slider.addEventListener('scroll', this.setSlideVisibility.bind(this), { passive: true });
     this.setSlideVisibility();
 
     if (this.announcementBarSlider) {

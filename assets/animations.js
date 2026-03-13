@@ -73,20 +73,19 @@ function initializeScrollZoomAnimationTrigger() {
 
 function percentageSeen(element) {
   const viewportHeight = window.innerHeight;
-  const scrollY = window.scrollY;
-  const elementPositionY = element.getBoundingClientRect().top + scrollY;
-  const elementHeight = element.offsetHeight;
+  const rect = element.getBoundingClientRect();
+  const elementHeight = rect.height;
 
-  if (elementPositionY > scrollY + viewportHeight) {
+  if (rect.top > viewportHeight) {
     // If we haven't reached the image yet
     return 0;
-  } else if (elementPositionY + elementHeight < scrollY) {
+  } else if (rect.bottom < 0) {
     // If we've completely scrolled past the image
     return 100;
   }
 
   // When the image is in the viewport
-  const distance = scrollY + viewportHeight - elementPositionY;
+  const distance = viewportHeight - rect.top;
   let percentage = distance / ((viewportHeight + elementHeight) / 100);
   return Math.round(percentage);
 }

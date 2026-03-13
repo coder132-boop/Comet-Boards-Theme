@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:themes.shopify.com)",
-      "Bash(grep -n \"scale\\(1.05\\)\\\\|translateY\\(0.6\\\\|quick-add {$\\\\|quick-add-modal\\\\|1.4rem 1.2rem\\\\|1.8rem\\\\|margin-top: 0.6rem\\\\|opacity: 0.5\" \"c:/Users/matth/OneDrive/Desktop/Comet/assets/component-card.css\")"
+      "Bash(grep -n \"scale\\(1.05\\)\\\\|translateY\\(0.6\\\\|quick-add {$\\\\|quick-add-modal\\\\|1.4rem 1.2rem\\\\|1.8rem\\\\|margin-top: 0.6rem\\\\|opacity: 0.5\" \"c:/Users/matth/OneDrive/Desktop/Comet/assets/component-card.css\")",
+      "Read(//c/Users/matth/.ssh/**)",
+      "Bash(ssh-add -l)",
+      "Bash(ssh-keygen -t ed25519 -C \"coder132-boop@users.noreply.github.com\" -f /c/Users/matth/.ssh/id_ed25519 -N \"\")",
+      "Bash(python3 -c \"import sys,json,re; data=open\\(''''c:/Users/matth/OneDrive/Desktop/Comet/config/settings_data.json''''\\).read\\(\\); parsed=json.loads\\(data\\); sections=parsed.get\\(''''current'''',{}\\).get\\(''''sections'''',{}\\); [print\\(k,v.get\\(''''settings'''',{}\\).get\\(''''color_scheme'''',''''''''\\)\\) for k,v in sections.items\\(\\)]\")",
+      "Bash(wc -l /c/Users/matth/OneDrive/Desktop/Comet/assets/*.js)",
+      "Bash(ls -lh /c/Users/matth/OneDrive/Desktop/Comet/assets/*.js)",
+      "Bash(sort -k5 -hr)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r _blocks c:/Users/matth/OneDrive/Desktop/Comet/ --include=*.liquid --include=*.json)",
+      "Bash(grep -r \"shopify_attributes\\\\|data-block-id\" c:/Users/matth/OneDrive/Desktop/Comet/ --include=*.liquid)",
+      "Bash(head -20 grep -n \"small-hide\\\\|medium-hide\" \"c:/Users/matth/OneDrive/Desktop/Comet/assets/base.css\")",
+      "Bash(/dev/null cat:*)",
+      "Bash(ls \"c:/Users/matth/OneDrive/Desktop/Comet/sections/\"*.json)"
     ]
   }
 }

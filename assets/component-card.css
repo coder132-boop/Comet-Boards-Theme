@@ -385,9 +385,30 @@
 }
 
 @media screen and (min-width: 990px) {
+  /* Igloo-style: gentle underline emphasis on card title hover */
+  .underline-links-hover:hover a {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.1rem;
+  }
+
+  /* Igloo-style: quick-add button hidden by default, revealed on card hover */
+  .product-card-wrapper .quick-add {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  .product-card-wrapper:hover .quick-add,
+  .product-card-wrapper:focus-within .quick-add {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 990px) and (prefers-reduced-motion: no-preference) {
   /* Igloo-style: smoother, more pronounced image zoom */
   .card .media.media--hover-effect > img:only-child,
   .card-wrapper .media.media--hover-effect > img:only-child {
+    will-change: transform;
     transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
@@ -406,16 +427,8 @@
     transform: scale(1.05);
   }
 
-  /* Igloo-style: gentle underline emphasis on card title hover */
-  .underline-links-hover:hover a {
-    text-decoration: underline;
-    text-underline-offset: 0.3rem;
-    text-decoration-thickness: 0.1rem;
-  }
-
-  /* Igloo-style: quick-add button slides up gently on card hover */
+  /* Igloo-style: quick-add slides up gently on card hover */
   .product-card-wrapper .quick-add {
-    opacity: 0;
     transform: translateY(0.6rem);
     transition: opacity var(--duration-default) cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 transform var(--duration-default) cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -423,7 +436,6 @@
 
   .product-card-wrapper:hover .quick-add,
   .product-card-wrapper:focus-within .quick-add {
-    opacity: 1;
     transform: translateY(0);
   }
 }

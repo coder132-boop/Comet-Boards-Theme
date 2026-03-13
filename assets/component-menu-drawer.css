@@ -28,6 +28,7 @@ menu-drawer > details[open] > summary::before {
 .menu-drawer {
   position: absolute;
   transform: translateX(-100%);
+  will-change: transform;
   visibility: hidden;
   z-index: 3;
   left: 0;
@@ -52,6 +53,13 @@ menu-drawer > details[open] > summary::before {
   /* Igloo: polished slide-in with deceleration easing, longer duration */
   transition: transform 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
               visibility 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js details[open] > .menu-drawer,
+  .js details[open] > .menu-drawer__submenu {
+    transition: none;
+  }
 }
 
 .js details[open].menu-opening > .menu-drawer,
