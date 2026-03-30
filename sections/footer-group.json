@@ -19,18 +19,10 @@
           "settings": {
             "show_social": true
           }
-        },
-        "link_list_legal": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Legal",
-            "menu": "footer-legal"
-          }
         }
       },
       "block_order": [
-        "brand_information_c77Mcb",
-        "link_list_legal"
+        "brand_information_c77Mcb"
       ],
       "settings": {
         "color_scheme": "scheme-5",
