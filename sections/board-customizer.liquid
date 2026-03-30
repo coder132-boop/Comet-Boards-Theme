@@ -60,125 +60,61 @@
     gap: 1.5rem;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .form-label {
-    font-weight: 600;
-    font-size: 1rem;
-    color: rgb(var(--color-foreground));
-  }
-
-  .form-input,
-  .form-textarea,
-  .form-file {
-    padding: 0.75rem 1rem;
-    border: 2px solid #FF1493;
+  .email-info {
+    padding: 1rem;
+    background-color: rgba(255, 20, 147, 0.08);
     border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    background-color: white;
+    border-left: 4px solid #FF1493;
+    margin-bottom: 1rem;
+  }
+
+  .email-info p {
+    margin: 0.5rem 0;
     color: rgb(var(--color-foreground));
-    transition: all 0.3s ease;
+    font-size: 0.95rem;
   }
 
-  .form-input:focus,
-  .form-textarea:focus,
-  .form-file:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
-    border-color: #FF69B4;
+  .email-info p:first-child {
+    margin-top: 0;
   }
 
-  .form-textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
-
-  .form-file::file-selector-button {
-    padding: 0.5rem 1rem;
-    background-color: #FF1493;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-  }
-
-  .form-file::file-selector-button:hover {
-    background-color: #FF69B4;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .form-submit-btn {
+  .send-email-btn {
+    display: inline-block;
     padding: 1rem 2rem;
     background-color: #FF1493;
     color: white;
+    text-decoration: none;
     border: 2px solid #FF1493;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 1rem;
+    text-align: center;
+    width: 100%;
   }
 
-  .form-submit-btn:hover {
+  .send-email-btn:hover {
     background-color: #FF69B4;
     border-color: #FF69B4;
     box-shadow: 0 8px 32px rgba(255, 20, 147, 0.5);
     transform: translateY(-2px);
   }
 
-  .form-submit-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  .success-message {
-    display: none;
-    padding: 1.5rem;
-    background-color: #f0f0f0;
+  .payment-notice {
+    padding: 1rem;
+    background-color: rgba(255, 20, 147, 0.1);
     border-radius: 8px;
-    border-left: 4px solid #FF1493;
     margin-top: 1rem;
   }
 
-  .success-message.show {
-    display: block;
-  }
-
-  .success-message h3 {
-    margin: 0 0 0.5rem 0;
-    color: rgb(var(--color-foreground));
-  }
-
-  .success-message p {
+  .payment-notice p {
     margin: 0;
-    color: rgba(var(--color-foreground), 0.75);
+    font-size: 0.95rem;
   }
 
-  .error-message {
-    display: none;
-    padding: 1rem;
-    background-color: #fee;
-    border-radius: 8px;
-    border-left: 4px solid #f44;
-    color: #c00;
-    margin-bottom: 1rem;
-  }
-
-  .error-message.show {
-    display: block;
+  .payment-notice strong {
+    color: #FF1493;
   }
 {%- endstyle -%}
 
@@ -198,54 +134,25 @@
             <p id="board-not-found" style="text-align: center; color: #999;">Loading board details...</p>
           </div>
 
-          <!-- Form -->
+          <!-- Email Section -->
           <div class="customizer-form-section">
-            <div id="error-message" class="error-message"></div>
-
-            <form id="board-customizer-form" class="customizer-form">
-              <input type="hidden" id="board-handle" name="board_handle">
-
-              <div class="form-group">
-                <label for="design-file" class="form-label">Upload Your Design *</label>
-                <input type="file" id="design-file" name="design_file" class="form-file" accept=".jpg,.jpeg,.png,.pdf,.ai,.psd" required>
-                <small style="color: #999;">Accepted: JPG, PNG, PDF, AI, PSD</small>
-              </div>
-
-              <div class="form-group">
-                <label for="instructions" class="form-label">Special Instructions</label>
-                <textarea id="instructions" name="instructions" class="form-textarea" placeholder="Tell us about your design, color preferences, or any special requests..."></textarea>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="email" class="form-label">Email *</label>
-                  <input type="email" id="email" name="email" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                  <label for="phone" class="form-label">Phone *</label>
-                  <input type="tel" id="phone" name="phone" class="form-input" required>
-                </div>
-              </div>
-
-              {%- if section.settings.show_payment_notice -%}
-                <div style="padding: 1rem; background-color: rgba(255, 20, 147, 0.1); border-radius: 8px; margin-top: 1rem;">
-                  <p style="margin: 0; font-size: 0.95rem;">
-                    <strong>Custom Design Fee: {{ section.settings.payment_amount }}</strong><br>
-                    {%- if section.settings.payment_deadline != blank -%}
-                      <small>Payment required by: {{ section.settings.payment_deadline }}</small>
-                    {%- endif -%}
-                  </p>
-                </div>
-              {%- endif -%}
-
-              <button type="submit" class="form-submit-btn">Submit Design for Review</button>
-            </form>
-
-            <div id="success-message" class="success-message">
-              <h3>✓ Thank You!</h3>
-              <p>Your design submission has been received. We'll review it and send you a payment link via email shortly.</p>
+            <div class="email-info">
+              <p><strong>Ready to submit your design?</strong></p>
+              <p>Click the button below to open your email client with a pre-filled draft for this board. Just add your design attachment and any special requirements, then send!</p>
             </div>
+
+            <a href="#" id="email-button" class="send-email-btn">Send Design Request via Email</a>
+
+            {%- if section.settings.show_payment_notice -%}
+              <div class="payment-notice">
+                <p>
+                  <strong>Custom Design Fee:</strong> {{ section.settings.payment_amount }}<br>
+                  {%- if section.settings.payment_deadline != blank -%}
+                    <strong>Payment deadline:</strong> {{ section.settings.payment_deadline }}
+                  {%- endif -%}
+                </p>
+              </div>
+            {%- endif -%}
           </div>
         </div>
       </div>
@@ -255,14 +162,11 @@
 
 <script>
 (function() {
-  const FORMSPREE_ENDPOINT = '{{ section.settings.formspree_endpoint }}';
-  const boardHandleInput = document.getElementById('board-handle');
+  const CONTACT_EMAIL = '{{ section.settings.contact_email }}';
   const boardPreviewImage = document.getElementById('board-preview-image');
   const boardPreviewTitle = document.getElementById('board-preview-title');
   const boardNotFound = document.getElementById('board-not-found');
-  const form = document.getElementById('board-customizer-form');
-  const errorMessageDiv = document.getElementById('error-message');
-  const successMessageDiv = document.getElementById('success-message');
+  const emailButton = document.getElementById('email-button');
 
   // Get board handle from URL parameter
   function getBoardHandle() {
@@ -275,6 +179,7 @@
     if (!handle) {
       boardNotFound.textContent = 'No board selected. Please go back and select a board.';
       boardNotFound.style.display = 'block';
+      emailButton.style.display = 'none';
       return;
     }
 
@@ -285,59 +190,33 @@
       const data = await response.json();
       const product = data.product;
 
-      boardHandleInput.value = handle;
-      boardPreviewTitle.textContent = product.title;
+      const boardName = product.title;
+      boardPreviewTitle.textContent = boardName;
       boardNotFound.style.display = 'none';
 
       if (product.featured_image) {
-        boardPreviewImage.innerHTML = `<img src="${product.featured_image.src}" alt="${product.title}">`;
+        boardPreviewImage.innerHTML = `<img src="${product.featured_image.src}" alt="${boardName}">`;
+      }
+
+      // Create mailto link with pre-filled email
+      const subject = encodeURIComponent(`Custom Board Design Request: ${boardName}`);
+      const body = encodeURIComponent(
+        `Hi,\n\nI'd like to design a custom ${boardName} board.\n\n` +
+        `Here are my design requirements and special instructions:\n` +
+        `[Please describe your design ideas, colors, artwork, and any other details here]\n\n` +
+        `Thanks!\n`
+      );
+
+      if (CONTACT_EMAIL) {
+        emailButton.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
       }
     } catch (error) {
       console.error('Error loading board:', error);
       boardNotFound.textContent = 'Could not load board details. Please try again.';
       boardNotFound.style.display = 'block';
+      emailButton.style.display = 'none';
     }
   }
-
-  // Handle form submission
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    errorMessageDiv.classList.remove('show');
-    successMessageDiv.classList.remove('show');
-
-    if (!FORMSPREE_ENDPOINT) {
-      errorMessageDiv.textContent = 'Form endpoint not configured. Please contact support.';
-      errorMessageDiv.classList.add('show');
-      return;
-    }
-
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        form.style.display = 'none';
-        successMessageDiv.classList.add('show');
-        // Scroll to success message
-        successMessageDiv.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        const data = await response.json();
-        errorMessageDiv.textContent = data.message || 'Error submitting form. Please try again.';
-        errorMessageDiv.classList.add('show');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      errorMessageDiv.textContent = 'Error submitting form. Please check your connection and try again.';
-      errorMessageDiv.classList.add('show');
-    }
-  });
 
   // Load board on page load
   const handle = getBoardHandle();
@@ -350,11 +229,9 @@
   "name": "Board Customizer",
   "settings": [
     {
-      "type": "text",
-      "id": "formspree_endpoint",
-      "label": "Formspree Endpoint URL",
-      "placeholder": "https://formspree.io/f/YOUR_FORM_ID",
-      "info": "Create a free Formspree account and paste your form endpoint here"
+      "type": "email",
+      "id": "contact_email",
+      "label": "Contact email for design requests"
     },
     {
       "type": "checkbox",

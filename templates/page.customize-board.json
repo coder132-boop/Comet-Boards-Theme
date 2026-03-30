@@ -3,7 +3,7 @@
     "customizer": {
       "type": "board-customizer",
       "settings": {
-        "formspree_endpoint": "",
+        "contact_email": "",
         "show_payment_notice": true,
         "payment_amount": "$150 - $500",
         "payment_deadline": "",
