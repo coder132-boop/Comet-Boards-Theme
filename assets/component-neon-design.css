@@ -1,0 +1,222 @@
+/* Neon Design System for Comet Boards Redesign */
+
+:root {
+  /* Neon color palette */
+  --color-neon-pink: #FF1493;
+  --color-neon-pink-light: #FF69B4;
+  --color-neon-cyan: #00FFFF;
+  --color-neon-cyan-light: #1FFBF9;
+
+  /* Semantic usage */
+  --color-accent-primary: var(--color-neon-pink);
+  --color-accent-secondary: var(--color-neon-pink-light);
+
+  /* Geometric element spacing and sizing */
+  --accent-border-width: 3px;
+  --accent-border-radius: 16px;
+}
+
+/* Hero section geometric accents */
+.banner--desktop-transparent .banner__box {
+  position: relative;
+}
+
+/* Enhance banner box styling */
+.banner__box {
+  font-weight: 800;
+}
+
+/* Neon glow effect on banner text */
+.banner__heading {
+  position: relative;
+  z-index: 1;
+}
+
+/* Button styling with neon accents */
+.button {
+  transition: all 0.3s ease;
+  font-weight: 700;
+}
+
+/* Primary buttons get neon pink */
+.button--primary,
+.button.button--primary {
+  background-color: var(--color-neon-pink);
+  color: #ffffff;
+  border-color: var(--color-neon-pink);
+}
+
+.button--primary:hover,
+.button.button--primary:hover {
+  box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+  transform: translateY(-2px);
+  background-color: var(--color-neon-pink);
+}
+
+/* Secondary buttons with neon border on hover */
+.button--secondary {
+  transition: all 0.3s ease;
+}
+
+.button--secondary:hover {
+  border-color: var(--color-neon-pink);
+  color: var(--color-neon-pink);
+}
+
+/* Shape cards neon styling */
+[data-block-type="ai_gen_block_ae37131"] .card {
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+[data-block-type="ai_gen_block_ae37131"] .card:hover {
+  border-color: var(--color-neon-pink);
+  box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+}
+
+/* Product grid card styling */
+.product-card-neon {
+  position: relative;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.product-card-neon:hover {
+  border-color: var(--color-neon-pink);
+  box-shadow: 0 0 25px rgba(255, 20, 147, 0.4);
+}
+
+.product-card-neon .card {
+  transition: all 0.3s ease;
+}
+
+.product-card-neon:hover .card {
+  border-color: var(--color-neon-pink);
+}
+
+/* Heart/favorite icon styling */
+.product-card-neon .card__icon-favorite,
+.card__icon-favorite {
+  color: var(--color-neon-pink);
+  transition: all 0.2s ease;
+}
+
+.product-card-neon .card__icon-favorite:hover,
+.card__icon-favorite:hover {
+  transform: scale(1.15);
+}
+
+/* Product card button styling */
+.product-card-neon .button,
+.card__button {
+  background-color: #000000;
+  transition: all 0.3s ease;
+}
+
+.product-card-neon .button:hover,
+.card__button:hover {
+  background-color: var(--color-neon-pink);
+  box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+}
+
+/* Product grid - 4 columns on desktop */
+@media screen and (min-width: 990px) {
+  .featured-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Product grid - 2 columns on tablet */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .featured-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Product grid - 1 column on mobile */
+@media screen and (max-width: 749px) {
+  .featured-products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Available Now section */
+.featured-products-section {
+  background-color: #fafaf9;
+  padding: 6rem 1.5rem;
+  position: relative;
+}
+
+.featured-products-section .section-heading {
+  margin-bottom: 4rem;
+  text-align: center;
+  font-weight: 900;
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+/* Decorative line under heading */
+.featured-products-section .title-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+@media screen and (max-width: 749px) {
+  .featured-products-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .featured-products-section .section-heading {
+    font-size: 1.875rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Form section neon accent */
+.ai_gen_block_c29530f input:focus,
+.ai_gen_block_c29530f textarea:focus {
+  border-color: var(--color-neon-pink) !important;
+  box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
+}
+
+/* Button with neon glow */
+.ai_gen_block_c29530f .button {
+  background-color: var(--color-neon-pink);
+  color: #ffffff;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.ai_gen_block_c29530f .button:hover {
+  box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Improved spacing and layout */
+.page-width {
+  max-width: 1200px;
+}
+
+/* Featured products grid container */
+.featured-products-grid {
+  margin: 0 auto;
+}
+
+/* Smooth transitions on all interactive elements */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  transition: all 0.3s ease;
+}
