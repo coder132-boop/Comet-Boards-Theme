@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-title",
+      "settings": {}
+    },
+    "shapes_gallery": {
+      "type": "shapes-gallery",
+      "settings": {
+        "title": "Choose Your Shape",
+        "heading_size": "h1",
+        "product_1": "classic",
+        "product_2": "bluntish",
+        "product_3": "park-camber",
+        "product_4": "pow-2",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main",
+    "shapes_gallery"
+  ]
+}

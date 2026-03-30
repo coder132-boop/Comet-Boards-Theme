@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "customizer": {
+      "type": "board-customizer",
+      "settings": {
+        "formspree_endpoint": "",
+        "show_payment_notice": true,
+        "payment_amount": "$150 - $500",
+        "payment_deadline": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "customizer"
+  ]
+}

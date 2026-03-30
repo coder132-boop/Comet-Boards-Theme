@@ -1,0 +1,246 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .shapes-gallery-{{ section.id }} {
+    display: grid;
+    gap: var(--spacing-grid-horizontal);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  @media screen and (min-width: 750px) {
+    .shapes-gallery-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .shapes-gallery-{{ section.id }} {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .shape-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .shape-card-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    aspect-ratio: 1;
+    background-color: #f5f5f5;
+    margin-bottom: 1rem;
+  }
+
+  .shape-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .shape-card:hover .shape-card-image img {
+    transform: scale(1.05);
+  }
+
+  .shape-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shape-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: rgb(var(--color-foreground));
+  }
+
+  .design-button {
+    display: inline-block;
+    margin-top: auto;
+    padding: 0.75rem 1.5rem;
+    background-color: #FF1493;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid #FF1493;
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.25);
+  }
+
+  .design-button:hover {
+    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.5);
+    transform: translateY(-2px);
+    background-color: #FF69B4;
+    border-color: #FF69B4;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <div class="shapes-section section-{{ section.id }}-padding">
+    <div class="page-width">
+      {%- if section.settings.title != blank -%}
+        <div class="title-wrapper">
+          <h2 class="title section-heading {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        </div>
+      {%- endif -%}
+
+      <div class="shapes-gallery-{{ section.id }}" id="shapes-gallery-container-{{ section.id }}">
+        <!-- Products will be loaded by JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const containerId = 'shapes-gallery-container-{{ section.id }}';
+  const productHandles = ['{{ section.settings.product_1 }}', '{{ section.settings.product_2 }}', '{{ section.settings.product_3 }}', '{{ section.settings.product_4 }}'].filter(Boolean);
+
+  async function loadProducts() {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    for (const handle of productHandles) {
+      try {
+        const response = await fetch(`/products/${handle}.json`);
+        const data = await response.json();
+        const product = data.product;
+
+        const card = document.createElement('div');
+        card.className = 'shape-card';
+
+        const imageUrl = product.featured_image ? product.featured_image.src : '';
+        const imageHtml = imageUrl ? `<img src="${imageUrl}" alt="${product.title}">` : '';
+
+        card.innerHTML = `
+          <div class="shape-card-image">
+            ${imageHtml}
+          </div>
+          <div class="shape-card-content">
+            <h3 class="shape-card-title">${product.title}</h3>
+            <a href="/pages/customize-board?board=${handle}" class="design-button">Design This Board</a>
+          </div>
+        `;
+
+        container.appendChild(card);
+      } catch (error) {
+        console.error(`Failed to load product ${handle}:`, error);
+      }
+    }
+  }
+
+  // Load products when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadProducts);
+  } else {
+    loadProducts();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shapes Gallery",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "Choose Your Shape"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Medium"
+        },
+        {
+          "value": "h1",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "product_1",
+      "label": "Product 1 Handle",
+      "placeholder": "product-handle-1"
+    },
+    {
+      "type": "text",
+      "id": "product_2",
+      "label": "Product 2 Handle",
+      "placeholder": "product-handle-2"
+    },
+    {
+      "type": "text",
+      "id": "product_3",
+      "label": "Product 3 Handle",
+      "placeholder": "product-handle-3"
+    },
+    {
+      "type": "text",
+      "id": "product_4",
+      "label": "Product 4 Handle",
+      "placeholder": "product-handle-4"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shapes Gallery"
+    }
+  ]
+}
+{% endschema %}
