@@ -253,6 +253,12 @@
           font-size: 1.6rem;
         }
       }
+
+      /* Hide header/navigation */
+      header,
+      .header-wrapper {
+        display: none !important;
+      }
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
