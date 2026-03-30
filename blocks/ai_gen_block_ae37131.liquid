@@ -44,6 +44,13 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .ai-multicolumn-card-{{ ai_gen_id }}:hover {
+    border-color: #FF1493;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
   }
 
   .ai-multicolumn-card-image-wrapper-{{ ai_gen_id }} {

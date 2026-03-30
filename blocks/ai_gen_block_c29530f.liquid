@@ -78,8 +78,8 @@
   .ai-contact-form__textarea-{{ ai_gen_id }}:focus,
   .ai-contact-form__file-input-{{ ai_gen_id }}:focus {
     outline: none;
-    border-color: {{ block.settings.input_focus_border }};
-    box-shadow: 0 0 0 3px {{ block.settings.input_focus_border }}33;
+    border-color: #FF1493;
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.2);
   }
 
   .ai-contact-form__input-{{ ai_gen_id }}::placeholder,
@@ -121,8 +121,8 @@
     padding: {{ block.settings.button_padding }}px;
     font-size: {{ block.settings.button_text_size }}px;
     font-weight: 600;
-    color: {{ block.settings.button_text_color }};
-    background-color: {{ block.settings.button_color }};
+    color: #ffffff;
+    background-color: #FF1493;
     border: none;
     border-radius: {{ block.settings.button_border_radius }}px;
     cursor: pointer;
@@ -132,9 +132,9 @@
   }
 
   .ai-contact-form__button-{{ ai_gen_id }}:hover {
-    background-color: {{ block.settings.button_hover_color }};
+    background-color: #FF1493;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
   }
 
   .ai-contact-form__success-{{ ai_gen_id }} {
