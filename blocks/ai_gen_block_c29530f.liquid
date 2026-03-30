@@ -25,8 +25,10 @@
     font-size: {{ block.settings.heading_size }}px;
     color: {{ block.settings.heading_color }};
     margin: 0 0 16px;
-    font-weight: 600;
+    font-weight: 800;
     line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
   }
 
   .ai-contact-form__description-{{ ai_gen_id }} {
@@ -72,6 +74,7 @@
     border-radius: {{ block.settings.input_border_radius }}px;
     transition: all 0.3s ease;
     font-family: inherit;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   .ai-contact-form__input-{{ ai_gen_id }}:focus,
@@ -133,8 +136,13 @@
 
   .ai-contact-form__button-{{ ai_gen_id }}:hover {
     background-color: #FF1493;
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 20, 147, 0.5), 0 0 25px rgba(255, 20, 147, 0.4);
+  }
+
+  .ai-contact-form__button-{{ ai_gen_id }}:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
   }
 
   .ai-contact-form__success-{{ ai_gen_id }} {
